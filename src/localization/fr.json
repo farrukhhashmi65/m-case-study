@@ -1,0 +1,34 @@
+{
+    "title": "Étude de cas",
+    "chooseCountry": "Choisissez un pays",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "firstName" : "Prénom",
+    "lastName" : "Nom de famille",
+    "login": "Connexion",
+    "welcome": "Bienvenue",
+    "changeLanguage": "Changer de langue",
+    "languages": {
+        "en": "English",
+        "ru": "Русский",
+        "fr": "Français"
+    },
+    "register" : "Registre",
+    "close": "Fermer",
+    "signup" : "S'inscrire",
+    "countryFormLabel": "Veuillez choisir le pays pour continuer.",
+    "validations": {
+        "usernameRequired" : "Doit fournir un nom d'utilisateur",
+        "usernameValid": "Le nom d'utilisateur ne répond pas aux critères spécifiés.",
+        "passwordRequired": "Doit fournir un mot de passe",
+        "usernameHelperUAE" : "Le nom d'utilisateur doit être alphanumérique et contenir au moins 5 caractères",
+        "usernameHelperIndia" : "Le nom d'utilisateur doit commencer par une lettre et comporter au moins 6 caractères",
+        "usernameHelperPak" : "Le nom d'utilisateur doit être alphanumérique et comporter au moins 8 caractères",
+        "usernameHelperOman" : "Le nom d'utilisateur doit être uniquement composé d'alphabets et comporter au moins 10 caractères.",
+        "passwordValid": "Le mot de passe doit contenir au moins huit caractères, au moins un chiffre et au moins un caractère spécial.",
+        "firstNameRequired" : "Doit fournir le prénom",
+        "firstNameValid": "Doit fournir un prénom valide",
+        "lastNameRequired" : "Doit fournir le nom de famille",
+        "lastNameValid": "Doit fournir un nom de famille valide"
+    }
+}
