@@ -5,17 +5,19 @@ import RegisterUser from '../features/registerUser';
 import Dashboard from '../features/dashboard';
 import * as Routes from './routes';
 import { ThemeProvider } from "styled-components";
-import { useAppSelector } from '../redux/reduxHooks'
 import {
   SafeAreaView,
+  StyleSheet
 } from 'react-native';
+import { useSelector } from 'react-redux'
 
 const Stack = createNativeStackNavigator();
 const AppNavigation = () => {
 
   const {
     theme
-  } = useAppSelector((state: any) => state.themeReducer)
+  } = useSelector((state: any) => state.themeReducer)
+  const styles = getStyles(theme)
 
   // App Navigation
   const MyTheme = {
@@ -28,7 +30,7 @@ const AppNavigation = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <SafeAreaView style={{ flex: 1, backgroundColor : theme.PRIMARY_BACKGROUND_COLOR}}>
+      <SafeAreaView style={styles.safeAreaContainer}>
         <NavigationContainer theme={MyTheme} >
           <Stack.Navigator
             screenOptions={{
@@ -50,5 +52,11 @@ const AppNavigation = () => {
   );
 };
 
+const getStyles = (theme : any) => StyleSheet.create({
+  safeAreaContainer: {
+      flex: 1,
+      backgroundColor: theme.PRIMARY_BACKGROUND_COLOR
+  },
+})
 
 export default AppNavigation;

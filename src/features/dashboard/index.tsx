@@ -1,14 +1,11 @@
 import React from 'react'
-import { useAppSelector } from '../../redux/reduxHooks'
 import { useTranslation } from 'react-i18next'
 import { View, StyleSheet } from 'react-native'
-import { useTheme } from 'styled-components'
 import Text, { fontVariant } from '../../components/Text';
 
 const Dashboard: React.FC<any> = (): JSX.Element => {
     const { t } = useTranslation()
-    const theme = useTheme();
-    const styles = getStyles(theme)
+    const styles = getStyles()
 
     return (
         <View style={styles.rootContainer}>
@@ -17,7 +14,7 @@ const Dashboard: React.FC<any> = (): JSX.Element => {
     )
 }
 
-const getStyles = (theme: any) => StyleSheet.create({
+const getStyles = () => StyleSheet.create({
     rootContainer: {
         flex: 1,
         paddingHorizontal: 22

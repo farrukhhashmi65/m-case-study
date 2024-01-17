@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight'
 import { useTheme } from 'styled-components'
 import Text, { fontVariant } from './Text';
+
+interface SelectProps {
+    onPress: () => void;
+    label: string;
+    left?: ReactNode;
+    value?: string;
+    testID?: string
+}
 
 const SelectContainer = styled.TouchableOpacity`
   margin-vertical: 12px;
@@ -30,11 +38,11 @@ const PlaceHolderContainer = styled.View`
 `;
 
 
-const Select: React.FC<any> = ({ onPress, label, left, value }): JSX.Element => {
+const Select: React.FC<SelectProps> = ({ onPress, label, left, value, testID } : SelectProps): JSX.Element => {
     const theme = useTheme();
 
     return (
-        <SelectContainer onPress={onPress} activeOpacity={0.6}>
+        <SelectContainer onPress={onPress} activeOpacity={0.6} testID={testID}>
             {left &&
                 <IconContainer>
                     {left}
@@ -48,7 +56,7 @@ const Select: React.FC<any> = ({ onPress, label, left, value }): JSX.Element => 
                 <Text variant={fontVariant.body1}>{label}</Text>
                 }
             </PlaceHolderContainer>
-            <IconContainer>
+            <IconContainer testID="iconContainer">
                 <FontAwesomeIcon size={18} icon={faAngleRight} color={theme.PRIMARY_TEXT_COLOR} />
             </IconContainer>
         </SelectContainer>

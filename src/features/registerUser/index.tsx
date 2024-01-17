@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useAppSelector, useAppDispatch } from '../../redux/reduxHooks'
 import { useTranslation } from 'react-i18next'
 import { View, Image, StyleSheet } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -12,19 +11,23 @@ import { setLanguage } from '../../config/utils'
 import { changeAppTheme } from '../../redux/actions/themeActions'
 import CountriesListModal from '../../components/CountriesListModal'
 import LanguagesListModal from '../../components/LanguagesListModal'
-import { CountryImages, Countries } from '../../config/constants'
-import CustomTextInput from '../../components/CustomTextInput';
+import { CountryImages, Countries, APIStatus } from '../../config/constants'
+import CustomTextInput from '../../components/CustomTextInput'
 import useForm from '../../hooks/useForm'
 import { validationsLoginForm } from '../../config/validations'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 import {
     ROUTE_USER_DASHBOARD
 } from '../../config/routes';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import Text, { fontVariant } from '../../components/Text';
+import Text, { fontVariant } from '../../components/Text'
+import { useSelector, useDispatch } from 'react-redux'
+import { registerUserRequest } from '../../redux/actions/userRegistrationActions'
 
-const RegisterUser: React.FC<any> = (): JSX.Element => {
+interface RegisterUserProps {}
+
+const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
     const { t, i18n } = useTranslation()
     const theme = useTheme();
     const [languageModalVisible, setLanguageModalVisible] = useState<boolean>(false);
@@ -40,12 +43,19 @@ const RegisterUser: React.FC<any> = (): JSX.Element => {
         [Countries.Oman]: `${t('validations.usernameHelperOman')}`
     }
 
-    const initialFormState: any = {
+    const initialFormState = {
         username: '',
         password: '',
         firstName: '',
         lastName: ''
     }
+
+    const {
+        response,
+        loading,
+        error
+    } = useSelector((state: any) => state.userRegistration)
+    
 
     const validations = validationsLoginForm({ t, country }) || []
     const { values, isValid, errors, changeHandler, touched, setValues, setValid, setErrors } = useForm(initialFormState, validations);
@@ -54,13 +64,22 @@ const RegisterUser: React.FC<any> = (): JSX.Element => {
         resetForm()
     }, [i18n.language]);
 
+    useEffect(() => {
+        if (!loading && response) {
+            const { status } = response;
+            if (status ===  APIStatus.Success) {
+                navigation.navigate(ROUTE_USER_DASHBOARD)
+            }
+        }
+    }, [response, loading]);
+
     const resetForm = () => {
         setValues(initialFormState)
         setValid(false)
         setErrors({})
     }
 
-    const dispatch = useAppDispatch()
+    const dispatch = useDispatch()
 
     const onOpenLanguageModal = () => {
         setLanguageModalVisible(true)
@@ -94,12 +113,16 @@ const RegisterUser: React.FC<any> = (): JSX.Element => {
         )
     }
 
+    const onSubmitForm = () =>{
+        dispatch(registerUserRequest({ country, ...values}))
+    }
+
     return (
         <View style={styles.rootContainer}>
             <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.topSection}>
                     <View style={styles.languageBtnContainer}>
-                        <SimpleButton onPress={() => onOpenLanguageModal()} activeOpacity={0.7}>
+                        <SimpleButton onPress={() => onOpenLanguageModal()} activeOpacity={0.7} testID="languageButton">
                             <FontAwesomeIcon icon={faGlobe} color={theme.PRIMARY_COLOR} size={24} />
                             <View style={styles.languageBtnTextContainer}>
                                 <Text color={theme.PRIMARY_COLOR} variant={fontVariant.subtitle1}>{i18n.language.toUpperCase()}</Text>
@@ -121,40 +144,48 @@ const RegisterUser: React.FC<any> = (): JSX.Element => {
                         onPress={() => onOpenCountryModal()}
                         label={t('chooseCountry')}
                         value={country}
+                        testID='selectContainer'
                     />
                     {country &&
                         <>
                             <CustomTextInput
                                 value={values?.username}
-                                onChange={(value: string) => changeHandler({ name: 'username', value })}
+                                onChangeText={(value: string) => changeHandler({ name: 'username', value })}
                                 placeholder={t('username')}
                                 helperText={country ? countrySpecificUsernameValidationHelper[country] : ''}
                                 error={touched.username && errors.username}
                                 maxLength={16}
+                                testID="username"
                             />
                             <CustomTextInput
                                 value={values?.password}
-                                onChange={(value: string) => changeHandler({ name: 'password', value })}
+                                onChangeText={(value: string) => changeHandler({ name: 'password', value })}
                                 placeholder={t('password')}
                                 error={touched.password && errors.password}
                                 maxLength={16}
                                 secureTextEntry={true}
+                                testID="password"
                             />
                             <CustomTextInput
                                 value={values?.firstName}
-                                onChange={(value: string) => changeHandler({ name: 'firstName', value })}
+                                onChangeText={(value: string) => changeHandler({ name: 'firstName', value })}
                                 placeholder={t('firstName')}
                                 error={touched.firstName && errors.firstName}
                                 maxLength={16}
+                                testID="firstName"
                             />
                             <CustomTextInput
                                 value={values?.lastName}
-                                onChange={(value: string) => changeHandler({ name: 'lastName', value })}
+                                onChangeText={(value: string) => changeHandler({ name: 'lastName', value })}
                                 placeholder={t('lastName')}
                                 error={touched.lastName && errors.lastName}
                                 maxLength={16}
+                                testID="lastName"
                             />
                         </>
+                    }
+                    {error &&
+                        <Text color={theme.ERROR_TEXT_COLOR} variant={fontVariant.body2}>*{error}</Text>
                     }
                 </View>
             </KeyboardAwareScrollView>
@@ -162,13 +193,14 @@ const RegisterUser: React.FC<any> = (): JSX.Element => {
                 {country &&
                     <Button
                         disabled={!isValid}
-                        onPress={() => navigation.navigate(ROUTE_USER_DASHBOARD)}
+                        onPress={() => onSubmitForm()}
                         title={t('register')}
+                        testID="registerButton"
                     />
                 }
             </View>
             {languageModalVisible && renderLanguageBottomSheet()}
-            {countriesModalVisible && renderCountriesBottomSheet()}
+            {countriesModalVisible && renderCountriesBottomSheet()} 
         </View>
     )
 }

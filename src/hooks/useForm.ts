@@ -13,8 +13,8 @@ const useForm = (initialState: any = {}, validations: any[] =[]) => {
 
 
     const [values, setValues] = useState<any>(initialState);
-    const [errors, setErrors] = useState(initialErrors);
-    const [isValid, setValid] = useState(initialIsValid);
+    const [errors, setErrors] = useState<any>(initialErrors);
+    const [isValid, setValid] = useState<boolean>(initialIsValid);
     const [touched, setTouched] = useState<any>({});
 
 

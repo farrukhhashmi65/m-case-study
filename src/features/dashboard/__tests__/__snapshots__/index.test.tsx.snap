@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders dashboard 1`] = `
+<View
+  style={
+    {
+      "flex": 1,
+      "paddingHorizontal": 22,
+    }
+  }
+>
+  <Text
+    color="#3d3d3d"
+    style={
+      [
+        {
+          "color": "#3d3d3d",
+        },
+        {
+          "fontSize": 18,
+          "fontWeight": "600",
+        },
+      ]
+    }
+  >
+    welcome
+  </Text>
+</View>
+`;

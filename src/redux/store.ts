@@ -5,16 +5,20 @@ import { appReducer } from './appReducer'
 
 const sagaMiddleware = createSagaMiddleware()
 
-// mount it on the Store
-export const store = configureStore({
-  reducer : appReducer, 
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
-  devTools : true
-})
-
-sagaMiddleware.run(rootSaga)
-
-export type AppDispatch = typeof store.dispatch
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof appReducer>
+export type AppStore = ReturnType<typeof setupStore>
 
 
+export const setupStore = (preloadedState?: Partial<RootState>): any => {
+  const store = configureStore({
+    reducer: appReducer,
+    preloadedState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
+    devTools : true
+  });
+
+  // Run the rootSaga
+  sagaMiddleware.run(rootSaga);
+
+  return store;
+};

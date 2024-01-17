@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useTheme } from 'styled-components'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TextProps as RNTextProps } from 'react-native'
 
 export const enum fontVariant {
   h1 = 'h1',
@@ -22,10 +22,16 @@ const Typography = styled.Text<{ color: any }>`
     color: ${props => props.color}; 
 `
 
-const Text: React.FC<any> = ({ variant, children, color }): JSX.Element => {
+interface TextProps  {
+  variant: fontVariant;
+  children?: React.ReactNode;
+  color? : string
+}
+
+const Text: React.FC<TextProps> = ({ variant, children, color } : TextProps): JSX.Element => {
   const theme = useTheme();
-  const styles: any = getStyles(theme)
-  const textColor = color ? color : theme.PRIMARY_TEXT_COLOR
+  const styles: Record<fontVariant, RNTextProps['style']> = getStyles();
+  const textColor = color || theme.PRIMARY_TEXT_COLOR
   return (
     <Typography color={textColor} style={styles[variant]}>
       {children}
@@ -33,7 +39,7 @@ const Text: React.FC<any> = ({ variant, children, color }): JSX.Element => {
   )
 }
 
-const getStyles = (theme: any) => StyleSheet.create({
+const getStyles = () => StyleSheet.create({
   h1: {
     fontSize: 34,
     fontWeight: 'bold'

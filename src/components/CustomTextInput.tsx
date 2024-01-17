@@ -1,22 +1,32 @@
 import React from 'react';
 import { useTheme } from 'styled-components'
-import { StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, View, TextInputProps } from 'react-native'
 import Text, { fontVariant } from './Text';
 
-const CustomTextInput: React.FC<any> = (props): JSX.Element => {
+interface CustomTextInputProps extends TextInputProps {
+    value?: string;
+    onChangeText?: (text: string) => void;
+    placeholder?: string;
+    error?: string;
+    helperText?: string;
+    testID? : string
+  }
+
+const CustomTextInput: React.FC<CustomTextInputProps> = (props : CustomTextInputProps): JSX.Element => {
     const theme = useTheme();
-    const styles = getStyles(theme, props)
-    const { value = '', onChange, placeholder = '', keyboardType = 'default', error, helperText, ...rest } = props;
+    const { value = '', onChangeText, placeholder = '', keyboardType = 'default', error, helperText, testID, ...rest } = props;
+    const styles = getStyles(theme, error)
 
     return (
         <View style={styles.inputContainer}>
             <TextInput
                 style={styles.input}
-                onChangeText={onChange}
+                onChangeText={onChangeText}
                 value={value}
                 placeholder={placeholder}
                 keyboardType={keyboardType}
                 placeholderTextColor={theme.PRIMARY_TEXT_COLOR}
+                testID={testID}
                 {...rest}
             />
             {error &&
@@ -34,7 +44,7 @@ const CustomTextInput: React.FC<any> = (props): JSX.Element => {
     )
 }
 
-const getStyles = (theme: any, props: any) => StyleSheet.create({
+const getStyles = (theme: any, error: any) => StyleSheet.create({
     inputContainer: {
         marginVertical: 12,
     },
@@ -44,7 +54,7 @@ const getStyles = (theme: any, props: any) => StyleSheet.create({
         padding: 12,
         width: '100%',
         alignItems: 'center',
-        borderColor: props.error ? theme.ERROR_TEXT_COLOR : theme.PRIMARY_TEXT_COLOR,
+        borderColor: error ? theme.ERROR_TEXT_COLOR : theme.PRIMARY_TEXT_COLOR,
         borderRadius: 8
     },
     helperContainer: {

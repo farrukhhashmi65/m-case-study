@@ -14,3 +14,8 @@ export const CountryImages: any = {
     Oman: require('../assets/Oman.png'),
     UAE: require('../assets/UAE.png')
 }
+
+export enum APIStatus {
+    Error = "error",
+    Success = "success",
+}

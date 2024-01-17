@@ -7,16 +7,27 @@ import { useTranslation } from 'react-i18next'
 import { Countries, CountryImages } from '../config/constants'
 import Text, { fontVariant } from './Text';
 
-const CountriesList: React.FC<any> = (props): JSX.Element => {
+interface CountriesListModalProps {
+    countriesModalVisible: boolean;
+    setCountriesModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    onCountrySelect: (country: string) => void;
+}
+
+interface RenderItemProps {
+    item: string;
+    index: number;
+}
+
+const CountriesListModal: React.FC<CountriesListModalProps> = (props: CountriesListModalProps): JSX.Element => {
     const { t } = useTranslation()
     const styles = getStyles()
 
     const { countriesModalVisible, setCountriesModalVisible, onCountrySelect } = props;
 
-    const renderItem = (row: any): any => (
-        <TouchableOpacity onPress={() => onCountrySelect(row.item)} style={styles.listItem} activeOpacity={0.7}>
-            <Image source={CountryImages[row.item]} style={styles.countryImage}/>
-            <Text variant={fontVariant.body2}>{row.item}</Text>
+    const renderItem = ({ item, index }: RenderItemProps) => (
+        <TouchableOpacity onPress={() => onCountrySelect(item)} style={styles.listItem} activeOpacity={0.7} testID={`countryListItem_${index}`}>
+            <Image source={CountryImages[item]} style={styles.countryImage} />
+            <Text variant={fontVariant.body2}>{item}</Text>
         </TouchableOpacity>
     );
 
@@ -27,8 +38,8 @@ const CountriesList: React.FC<any> = (props): JSX.Element => {
                 <View style={styles.listContainer}>
                     <FlatList
                         data={Object.keys(Countries)}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item}
+                        renderItem={(item) => renderItem(item)}
+                        keyExtractor ={(item, index) => `${item}${index}`}
                         ItemSeparatorComponent={() => <Separator />}
                     />
                 </View>
@@ -51,13 +62,13 @@ const getStyles = () => StyleSheet.create({
     listContainer: {
         marginVertical: 12
     },
-    countryImage : { 
-        width : 24, 
-        height : 24, 
-        resizeMode: 'contain', 
-        marginHorizontal : 6
+    countryImage: {
+        width: 24,
+        height: 24,
+        resizeMode: 'contain',
+        marginHorizontal: 6
     }
 })
 
 
-export default CountriesList;
+export default CountriesListModal;

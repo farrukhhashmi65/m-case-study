@@ -1,6 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects'
 import * as Actions from '../actions/userRegistrationActions'
 import { Network, Endpoints } from '../../networking'
+import axios from 'axios'
 
 // watcher
 export function * watchUserRegistrationSaga (): any {
@@ -12,10 +13,17 @@ export function * watchUserRegistrationSaga (): any {
 
 export function *registerUser (action: any): any {
   try {
-    const absencesResponse = yield call(registerUserAPI, action)
-    yield put(Actions.registerUserSuccess(absencesResponse)) 
+    const response = yield call(registerUserAPI, action)
+    console.log("response", response)
+    yield put(Actions.registerUserSuccess(response)) 
   } catch (error) {
-    yield put(Actions.registerUserFailure(error))
+    if(axios.isAxiosError(error)){
+      console.log("response", error)
+      yield put(Actions.registerUserFailure("Network Error"))
+    } else{
+      yield put(Actions.registerUserFailure(error))
+    }
+   
   }
 }
 
@@ -27,5 +35,6 @@ export async function registerUserAPI (action: any): Promise<any> {
     url,
     data: action.payload
   }
+  console.log("config", config)
   return await Network.makeNetworkCall(config)
 }

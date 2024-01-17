@@ -6,32 +6,30 @@ import english from '../localization/en.json'
 import french from '../localization/fr.json'
 import russian from '../localization/ru.json'
 
-i18n
-  .use(initReactI18next)
-  .init({
-    compatibilityJSON: 'v3',
-    resources: {
-      en: {
-        translation: {
-          ...english,
-        }
-      },
-      ru: {
-        translation: {
-          ...russian,
-        }
-      },
-      fr: {
-        translation: {
-          ...french,
-        }
+i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
+  resources: {
+    en: {
+      translation: {
+        ...english,
       }
     },
-    lng: 'en',
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false
+    ru: {
+      translation: {
+        ...russian,
+      }
+    },
+    fr: {
+      translation: {
+        ...french,
+      }
     }
-  })
+  },
+  lng: 'en',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false
+  }
+})
 
 export default i18n
