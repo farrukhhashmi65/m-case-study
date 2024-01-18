@@ -29,7 +29,8 @@ describe('registerUser()', () => {
         username: "abcdef",
         password: 'AB2334WE@',
         firstName: "Farrukh",
-        lastName: 'Hashmi'
+        lastName: 'Hashmi',
+        country: "Pakistan"
     };
     const action = Actions.registerUserRequest(data);
     const generator = cloneableGenerator(registerUser)(action);
@@ -37,22 +38,25 @@ describe('registerUser()', () => {
 
     test('Response is successful from registerUser', () => {
         const response = {
-            status: 200,
-            data: {
-                data: {}
-            },
+            data : {
+                status : "success",
+                data :{
+                    firstName: "Farrukh",
+                    lastName: 'Hashmi',
+                    country: "Pakistan",
+                    token: 'exampleToken'
+                }
+            }
         };
 
         const clone = generator.clone();
         expect(clone.next(response).value).toEqual(
-            put(Actions.registerUserSuccess(response)),
+            put(Actions.registerUserSuccess(response.data)),
         );
     });
 
     test('An Exception is thrown in registerUserAPI', () => {
-        const error = {
-            status: 400
-        };
+        const error =  "Network Error";
         const clone = generator.clone();
         expect(clone.throw(error).value).toEqual(
             put(Actions.registerUserFailure(error)),
@@ -66,7 +70,8 @@ describe('Request for registerUserAPI', () => {
             username: "abcdef",
             password: 'AB2334WE@',
             firstName: "Farrukh",
-            hashmi: 'Hashmi'
+            lastName: 'Hashmi',
+            country: "Pakistan"
         });
         const config = {
             method: 'POST',
@@ -79,4 +84,5 @@ describe('Request for registerUserAPI', () => {
             registerUserAPI(action);
         expect(spy).toHaveBeenCalledWith(config);
     });
+    
 });

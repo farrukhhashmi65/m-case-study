@@ -7,11 +7,11 @@ import { faMapLocationDot } from '@fortawesome/free-solid-svg-icons/faMapLocatio
 import Button, { SimpleButton } from '../../components/Button'
 import Select from '../../components/Select'
 import { useTheme } from 'styled-components'
-import { setLanguage } from '../../config/utils'
+import { setLanguage, setKeyStore } from '../../config/utils'
 import { changeAppTheme } from '../../redux/actions/themeActions'
 import CountriesListModal from '../../components/CountriesListModal'
 import LanguagesListModal from '../../components/LanguagesListModal'
-import { CountryImages, Countries, APIStatus } from '../../config/constants'
+import { CountryImages, Countries, APIStatus, USERNAME_KEY } from '../../config/constants'
 import CustomTextInput from '../../components/CustomTextInput'
 import useForm from '../../hooks/useForm'
 import { validationsLoginForm } from '../../config/validations'
@@ -24,8 +24,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Text, { fontVariant } from '../../components/Text'
 import { useSelector, useDispatch } from 'react-redux'
 import { registerUserRequest } from '../../redux/actions/userRegistrationActions'
+import FullScreenLoader from '../../components/FullScreenLoader'
 
-interface RegisterUserProps {}
+interface RegisterUserProps { }
 
 const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
     const { t, i18n } = useTranslation()
@@ -35,6 +36,7 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
     const [country, setCountry] = useState<string>('');
     const styles = getStyles()
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
+    const dispatch = useDispatch()
 
     const countrySpecificUsernameValidationHelper: any = {
         [Countries.UAE]: `${t('validations.usernameHelperUAE')}`,
@@ -55,7 +57,7 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
         loading,
         error
     } = useSelector((state: any) => state.userRegistration)
-    
+
 
     const validations = validationsLoginForm({ t, country }) || []
     const { values, isValid, errors, changeHandler, touched, setValues, setValid, setErrors } = useForm(initialFormState, validations);
@@ -65,9 +67,11 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
     }, [i18n.language]);
 
     useEffect(() => {
+        console.log("response", response)
         if (!loading && response) {
             const { status } = response;
-            if (status ===  APIStatus.Success) {
+            if (status === APIStatus.Success) {
+                onSaveUsername(values.username)
                 navigation.navigate(ROUTE_USER_DASHBOARD)
             }
         }
@@ -78,8 +82,6 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
         setValid(false)
         setErrors({})
     }
-
-    const dispatch = useDispatch()
 
     const onOpenLanguageModal = () => {
         setLanguageModalVisible(true)
@@ -93,6 +95,14 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
         setLanguage(item)
         setLanguageModalVisible(false)
     }
+
+    const onSaveUsername = async (username: string) => {
+        try {
+            await setKeyStore(USERNAME_KEY, username);
+        } catch (error) {
+            console.error('Error saving username:', error);
+        }
+    };
 
     const onCountrySelect = (item: string) => {
         dispatch(changeAppTheme(item))
@@ -113,8 +123,8 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
         )
     }
 
-    const onSubmitForm = () =>{
-        dispatch(registerUserRequest({ country, ...values}))
+    const onSubmitForm = () => {
+        dispatch(registerUserRequest({ country, ...values }))
     }
 
     return (
@@ -200,7 +210,8 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
                 }
             </View>
             {languageModalVisible && renderLanguageBottomSheet()}
-            {countriesModalVisible && renderCountriesBottomSheet()} 
+            {countriesModalVisible && renderCountriesBottomSheet()}
+            {loading && <FullScreenLoader />}
         </View>
     )
 }
@@ -210,7 +221,7 @@ const getStyles = () => StyleSheet.create({
         flex: 1,
         paddingHorizontal: 22
     },
-    topSection :{
+    topSection: {
         flex: 1
     },
     languageBtnContainer: {
@@ -218,14 +229,14 @@ const getStyles = () => StyleSheet.create({
         padding: 22,
         marginBottom: 30
     },
-    languageBtnTextContainer:{ 
-        marginLeft: 6 
+    languageBtnTextContainer: {
+        marginLeft: 6
     },
-    titleContainer: { 
-        alignItems: 'center' 
+    titleContainer: {
+        alignItems: 'center'
     },
-    formTitleContainer: { 
-        paddingVertical: 20 
+    formTitleContainer: {
+        paddingVertical: 20
     },
     countryImage: {
         width: 24,

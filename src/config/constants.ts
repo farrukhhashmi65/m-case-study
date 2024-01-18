@@ -1,5 +1,6 @@
 
 export const Languages = ["en", 'ru', 'fr']
+export const USERNAME_KEY = 'username';
 
 export enum Countries {
     UAE = "UAE",

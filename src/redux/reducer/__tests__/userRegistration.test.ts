@@ -6,7 +6,8 @@ describe('userRegistrationReducer', () => {
     const initialState = {
       loading: false,
       error: null,
-      response: null
+      response: null,
+      accessToken : null
     };
     const state = userRegistrationReducer(undefined, {});
     expect(state).toEqual(initialState);
@@ -16,7 +17,8 @@ describe('userRegistrationReducer', () => {
     const initialState = {
       loading: false,
       error: null,
-      response: null
+      response: null,
+      accessToken : null
     };
     const action = Actions.registerUserRequest({
         username: "abcdef",
@@ -28,7 +30,8 @@ describe('userRegistrationReducer', () => {
     const expectedState = {
       loading: true,
       error: null,
-      response: null
+      response: null,
+      accessToken : null
     };
     expect(state).toEqual(expectedState);
   });
@@ -37,11 +40,15 @@ describe('userRegistrationReducer', () => {
     const initialState = {
       loading: true,
       error: null,
-      response: null
+      response: null,
+      accessToken : null
     };
 
     const response = {
         status: 200,
+        data : {
+          accessToken : 'exampleToken'
+        }
     };
     const action = Actions.registerUserSuccess(response);
     const state = userRegistrationReducer(initialState, action);
@@ -57,14 +64,16 @@ describe('userRegistrationReducer', () => {
     const initialState = {
       loading: true,
       error: null,
-      response: null
+      response: null,
+      accessToken : null
     };
     const action = Actions.registerUserFailure('Error message');
     const state = userRegistrationReducer(initialState, action);
     const expectedState = {
       loading: false,
       error: 'Error message',
-      response: null
+      response: null,
+      accessToken : null
     };
     expect(state).toEqual(expectedState);
   });

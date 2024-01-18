@@ -1,2 +1,2 @@
 // End Points
-export const POST_REGISTER_USER = '/api/registerUser'
+export const POST_REGISTER_USER = '/auth/register'

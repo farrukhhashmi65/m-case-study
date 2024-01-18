@@ -3,6 +3,14 @@ import RegisterUser from '../index';
 import { mockTheme, renderWithProviders } from '../../../config/testUtils';
 import { fireEvent } from '@testing-library/react-native';
 
+const mockState = {
+    userRegistration: {
+        response: { status: "success" },
+        loading: false,
+        error: null,
+    }
+};
+
 jest.mock('styled-components', () => ({
     ...jest.requireActual('styled-components'),
     useTheme: () => (mockTheme),
@@ -27,11 +35,10 @@ jest.mock('i18next', () => ({
     dir: jest.fn(),
 }))
 
-
 jest.mock('react-redux', () => {
     return {
         ...jest.requireActual('react-redux'),
-        useSelector: jest.fn().mockImplementation(() => ({})),
+        useSelector: jest.fn().mockImplementation((selectorFn) => selectorFn(mockState)),
         useDispatch: () => jest.fn(),
     };
 });
@@ -44,9 +51,7 @@ jest.mock('react-native-keyboard-aware-scroll-view', () => {
     const KeyboardAwareScrollView = ({ children }: any) => children;
     return { KeyboardAwareScrollView };
 });
-
-
-
+ 
 test('renders RegisterUser component', async () => {
 
     // Render the component with mocked dependencies

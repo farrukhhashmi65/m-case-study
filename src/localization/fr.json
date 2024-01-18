@@ -30,5 +30,7 @@
         "firstNameValid": "Doit fournir un prénom valide",
         "lastNameRequired" : "Doit fournir le nom de famille",
         "lastNameValid": "Doit fournir un nom de famille valide"
-    }
+    },
+    "logOut" : "Se déconnecter"
+
 }

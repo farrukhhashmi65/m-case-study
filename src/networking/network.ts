@@ -3,8 +3,8 @@ import axios, { AxiosRequestConfig } from 'axios'
 // simple function of network call - Axios Instance
 
 const AxiosInstance = axios.create({
-  baseURL: 'http://localhost:8000/api',
-  timeout: 1000,
+  baseURL: 'http://localhost:6000/api',
+  timeout: 120000,
   headers: { 'Content-Type': 'application/json' }
 })
 

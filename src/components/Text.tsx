@@ -15,7 +15,8 @@ export const enum fontVariant {
   body2 = 'body2',
   caption1 = 'caption1',
   caption2 = 'caption2',
-  button = 'button'
+  captionBold = 'captionBold',
+  button = 'button',
 }
 
 const Typography = styled.Text<{ color: any }>`
@@ -79,6 +80,10 @@ const getStyles = () => StyleSheet.create({
   caption2: {
     fontSize: 10,
     fontWeight: '400'
+  },
+  captionBold: {
+    fontSize: 12,
+    fontWeight: 'bold'
   },
   button: {
     fontSize: 16,
