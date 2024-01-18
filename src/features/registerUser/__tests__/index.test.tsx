@@ -2,6 +2,8 @@ import React from 'react';
 import RegisterUser from '../index';
 import { mockTheme, renderWithProviders } from '../../../config/testUtils';
 import { fireEvent } from '@testing-library/react-native';
+import { useNavigation } from '@react-navigation/native'
+import * as Utils from '../../../config/utils';
 
 const mockState = {
     userRegistration: {
@@ -51,8 +53,31 @@ jest.mock('react-native-keyboard-aware-scroll-view', () => {
     const KeyboardAwareScrollView = ({ children }: any) => children;
     return { KeyboardAwareScrollView };
 });
- 
+
+jest.mock('@react-navigation/native', () => ({
+    ...jest.requireActual('@react-navigation/native'),
+    useNavigation: jest.fn(),
+}));
+
+ // Mock the functions from '../../config/utils'
+jest.mock('../../../config/utils', () => ({
+    setKeyStore: jest.fn(),
+    getTheme: jest.fn(),  // Mock the getTheme function
+    setLanguage : jest.fn()
+}));
+
+const mockedUtils = Utils as jest.Mocked<typeof Utils>;
+
+
 test('renders RegisterUser component', async () => {
+
+    const mockNavigation = {
+        navigate: jest.fn(),
+        dispatch: jest.fn(),
+    };
+    (useNavigation as jest.Mock).mockReturnValue(mockNavigation);
+
+    mockedUtils.setKeyStore.mockResolvedValue();
 
     // Render the component with mocked dependencies
     const { toJSON , getByTestId } = renderWithProviders(<RegisterUser/>);

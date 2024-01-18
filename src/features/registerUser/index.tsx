@@ -67,7 +67,6 @@ const RegisterUser: React.FC<RegisterUserProps> = (): JSX.Element => {
     }, [i18n.language]);
 
     useEffect(() => {
-        console.log("response", response)
         if (!loading && response) {
             const { status } = response;
             if (status === APIStatus.Success) {
