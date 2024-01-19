@@ -12,6 +12,15 @@
  * React testing library/Jest for testing
  * For push notification, FCM. 
 
+## Step 1: Installation
+
+```bash
+# for node modules
+yarn
+
+# ios - installation
+pod install
+```
 
 ## Step 1: Start the Metro Server
 
@@ -34,22 +43,21 @@ Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _roo
 ### For Android
 
 ```bash
-# using npm
-npm run android
 
-# OR using Yarn
+# using Yarn
 yarn android
 ```
 
 ### For iOS
 
 ```bash
-# using npm
-npm run ios
 
-# OR using Yarn
+
+# using Yarn
 yarn ios
 ```
+
+Or you can start it directly on Xcode or Android studio
 
 If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
 
