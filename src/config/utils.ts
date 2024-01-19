@@ -4,7 +4,7 @@ import { I18nManager } from 'react-native';
 import RNRestart from 'react-native-restart';
 import { base, themePalettes } from "../config/theme";
 import { Countries } from './constants';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import SecureStore, { ACCESSIBLE } from "react-native-secure-key-store";
 
 export const setLanguage = async (languageKey: string) => {
@@ -38,9 +38,11 @@ export const getTheme = (country?: string) => {
 
 export const handleAxiosErrorMessage = (error: AxiosError) => {
   const axiosError = error as AxiosError;
-  const response = axiosError.response || {}
-  const errorMessage = response?.data?.message || "Network Error"
-  return errorMessage
+  const response: AxiosResponse<any> | undefined = axiosError.response;
+  const errorMessage = response?.data?.message || "Network Error";
+  
+  return errorMessage;
+ 
 }
 
 
