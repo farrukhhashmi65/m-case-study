@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAjAbWF7KIrgRzVly0bX9EUFRuKK4dyF3Q</string>
+	<key>GCM_SENDER_ID</key>
+	<string>505157567702</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.MashreqAssesment</string>
+	<key>PROJECT_ID</key>
+	<string>mashreq-web-push</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mashreq-web-push.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:505157567702:ios:676c5b638f7e20035bb577</string>
+	<key>DATABASE_URL</key>
+	<string>https://mashreq-web-push-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

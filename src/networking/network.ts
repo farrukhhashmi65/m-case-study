@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 // simple function of network call - Axios Instance
 
 const AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL: 'http://localhost:3001/api', // In case of android emulator, change it with your local ip instead of localhost
   timeout: 120000,
   headers: { 'Content-Type': 'application/json' }
 })

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "505157567702",
+    "project_id": "mashreq-web-push",
+    "storage_bucket": "mashreq-web-push.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505157567702:android:2353d3f7c215e9a85bb577",
+        "android_client_info": {
+          "package_name": "com.mashreqassesment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ1-MBw0yn6PJHlAC4VK0MuHsKAXP_MQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
